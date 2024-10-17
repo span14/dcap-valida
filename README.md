@@ -1,30 +1,45 @@
 # Fibonacci: A template project for Valida
 
-This is a simple program that calculates the n-th fibonacci number.
+This is a simple program that calculates the n-th fibonacci number and proves the execution of the computation in Valida. You can use this as a template for your projects which create Valida proofs of execution of Rust code.
 
-To run it in the Valida VM, you need the Valida toolchain installed. Follow the instructions [here](https://github.com/lita-xyz/valida-toolchain/blob/main/README.md).
+## System requirements
 
-Then, build the project, in the parent folder `fibonacci`:
+This template supports x86-64 Linux. [`rustup`](https://www.rust-lang.org/tools/install) is required. Arch Linux and Ubuntu are specifically supported, with other platforms possibly requiring some tinkering to make work.
+
+## Toolchain installation
+
+To run this template project in the Valida VM, you need the Valida toolchain installed. Go to [LLVM Valida releases](https://github.com/lita-xyz/llvm-valida-releases/releases) to find the latest release. Download the release tarball, then follow these steps, substituting `$path_to_release_tarball` with a fully qualified path to the release tarball:
+
+```bash
+sudo mkdir -p /valida-toolchain
+sudo chown $(whoami):users /valida-toolchain
+cd /
+tar xf $path_to_release_tarball
+sudo install /valida-toolchain/valida-shell /usr/local/bin
+```
+
+In the final `install` command, you can replace `/usr/local/bin` with any folder on your `PATH` environment variable (e.g., `~/.local/bin`). You can omit the `sudo` if your user has write permissions on the target folder.
+
+## Entering the Valida shell
+
+To put the Valida toolchain on your PATH, you can enter the Valida shell by running `valida-shell` in your shell. The above installation process should have resulted in `valida-shell` being on your `PATH`.
+
+## Usage
+
+Build the project, from the root directory of this repo:
 
 ```
 CC_delendum_unknown_baremetal_gnu=/valida-toolchain/bin/clang CFLAGS_delendum_unknown_baremetal_gnu="--sysroot=/valida-toolchain/ -isystem /valida-toolchain/include" RUSTFLAGS="-C linker=/valida-toolchain/bin/ld.lld -C link-args=/valida-toolchain/DelendumEntryPoint.o -C link-args=--script=/valida-toolchain/valida.ld -C link-args=/valida-toolchain/lib/delendum-unknown-baremetal-gnu/libc.a -C link-args=/valida-toolchain/lib/delendum-unknown-baremetal-gnu/libm.a -C link-args=--noinhibit-exec" cargo +delendum build --target=delendum-unknown-baremetal-gnu --verbose
 ```
 
-To run it in the Valida VM, run the built binary in either `Valida-shell` or the Valida binary:
-
-In Valida-shell:
+To run the program, in the Valida shell, from the root directory of this repo:
 
 ```
-valida>valida run ~/fibonacci/target/delendum-unknown-baremetal-gnu/debug/fibonacci log 25.bin
+valida> echo -ne '\x19' > 25.bin
+valida> valida run ./target/delendum-unknown-baremetal-gnu/debug/fibonacci log 25.bin
 ```
 
-The file 25.bin is a binary file containing the number 25. It can be created with:
-
-```
-echo -ne '\x19' > 25.bin
-```
-
-This is the input to the `fibonacci` program.
+The file 25.bin is a binary file containing the number 25. This is the input to the `fibonacci` program.
 
 The `run` command will load the binary, and execute the program. The program will then run, and print the output to the console and the file `log` in the current directory.
 
