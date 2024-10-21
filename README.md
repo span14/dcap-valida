@@ -8,17 +8,7 @@ This template supports x86-64 Linux. [`rustup`](https://www.rust-lang.org/tools/
 
 ## Toolchain installation
 
-To run this template project in the Valida VM, you need the Valida toolchain installed. Go to [LLVM Valida releases](https://github.com/lita-xyz/llvm-valida-releases/releases) to find the latest release. Download the release tarball, then follow these steps, substituting `$path_to_release_tarball` with a fully qualified path to the release tarball:
-
-```bash
-sudo mkdir -p /valida-toolchain
-sudo chown $(whoami):users /valida-toolchain
-cd /
-tar xf $path_to_release_tarball
-sudo install /valida-toolchain/valida-shell /usr/local/bin
-```
-
-In the final `install` command, you can replace `/usr/local/bin` with any folder on your `PATH` environment variable (e.g., `~/.local/bin`). You can omit the `sudo` if your user has write permissions on the target folder.
+To run this template project in the Valida VM, you need the Valida toolchain installed. Go to [LLVM Valida releases](https://github.com/lita-xyz/llvm-valida-releases/releases) to find the latest release. Download the release tarball, extract it, `cd` into the extracted folder, and run `sudo ./install.sh`.
 
 ## Entering the Valida shell
 
