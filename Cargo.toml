@@ -1,8 +1,12 @@
 [package]
-name = "fibonacci"
+name = "dcap-valida"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-valida-rs = { git = "https://github.com/lita-xyz/valida-rs.git", branch = "main" }
+dcap-rs = { git = "https://github.com/automata-network/dcap-rs.git" }
 getrandom = "0.2.15"
+hex = { version = "0.4" }
+serde_json = { version = "1", default-features = false }
+x509-parser = { version = "0.15.1" }
+valida-rs = { git = "https://github.com/lita-xyz/valida-rs.git", branch = "main" }
